@@ -1,2 +1,3 @@
-# go-microservice-starter
-base repository for golang http based services
+# go microservice starter
+
+production ready golang microservice example.
