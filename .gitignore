@@ -1,0 +1,168 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# Build output
+bin/
+dist/
+build/
+out/
+
+# Application binary
+event-gateway
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.production
+.env.staging
+.env.development
+
+# IDE - VSCode
+.vscode/
+*.code-workspace
+
+# IDE - JetBrains
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# IDE - Vim
+*.swp
+*.swo
+*~
+.vim/
+
+# IDE - Emacs
+*~
+\#*\#
+.\#*
+
+# Operating System Files
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# Logs
+*.log
+logs/
+log/
+*.log.*
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Cache
+*.cache
+cache/
+
+# Debug files
+debug
+debug.test
+*.pprof
+
+# Air live reload
+tmp/
+.air.toml
+
+# Testing
+coverage.out
+coverage.html
+*.coverprofile
+testdata/output/
+
+# Documentation build
+docs/_build/
+site/
+
+# Swagger
+docs/swagger.json
+docs/swagger.yaml
+
+# Local configuration overrides
+config.local.yaml
+config.local.yml
+*.local.yaml
+*.local.yml
+
+# Certificates and keys
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Docker
+.dockerignore.local
+
+# Kubernetes
+*.kubeconfig
+
+# Sensitive data
+secrets/
+credentials/
+*.secret
+
+# Backup files
+*.bak
+*.backup
+
+# Compression
+*.tar
+*.tar.gz
+*.zip
+*.rar
+*.7z
+
+# Performance profiling
+*.prof
+*.trace
+
+# Go sumdb
+go.sum.bak
+
+# Editor configs (keep these commented if you want to share editor configs)
+# .editorconfig
+
+# Tools
+.tool-versions
