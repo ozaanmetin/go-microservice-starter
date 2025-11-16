@@ -1,0 +1,13 @@
+# Event Gateway Configuration File
+
+server:
+  app_name: "Event Gateway"
+  port: 8000
+  host: "0.0.0.0"
+  read_timeout: 30s      
+  write_timeout: 30s
+  shutdown_timeout: 15s
+
+logger:
+  level: "info"
+  format: "json"
