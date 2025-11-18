@@ -44,26 +44,28 @@ func main() {
 
 	// Setup middlewares
 	api.SetupMiddlewares(app, cfg)
+
 	// Setup routes
 	api.SetupRoutes(app)
 
-	app.Get("/slow", func(c *fiber.Ctx) error {
-		time.Sleep(5 * time.Second) // 5 saniye bekle
-		return c.JSON(fiber.Map{"message": "slow response"})
-	})
-
 	// Start server in goroutine
-	go func() {
-		logging.L().WithField("host", cfg.Server.Host).WithField("port", cfg.Server.Port).Info("Starting server...")
-		if err := app.Listen(config.GetServerAddress(cfg)); err != nil {
-			logging.L().WithError(err).Fatal("Failed to start server")
-		}
-	}()
+	go startServer(app, config.GetServerAddress(cfg))
 
 	// Handle graceful shutdown (blocks here)
 	gracefulShutdown(app, cfg.Server.ShutdownTimeout)
 }
 
+
+// Starts the Fiber server
+func startServer(app *fiber.App, serverAddress string) {
+	logging.L().WithField("server_address", serverAddress).Info("Starting server...")
+	if err := app.Listen(serverAddress); err != nil {
+		logging.L().WithError(err).Fatal("Failed to start server")
+	}
+}
+
+
+// Handles graceful shutdown on os signals
 func gracefulShutdown(app *fiber.App, shutdownTimeout time.Duration) {
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
