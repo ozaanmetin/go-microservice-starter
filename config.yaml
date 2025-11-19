@@ -4,10 +4,20 @@ server:
   app_name: "Event Gateway"
   port: 8000
   host: "0.0.0.0"
-  read_timeout: 30s      
+  read_timeout: 30s
   write_timeout: 30s
   shutdown_timeout: 15s
+  rate_limiter:
+    enabled: true
+    max: 10               # Maximum requests per expiration window for global rate limiting (must be changed its only 10 for demonstrations)
+    expiration: 1m        # Time window (e.g., 1m, 30s)
 
 logger:
   level: "info"
   format: "json"
+
+redis:
+  host: "127.0.0.1"
+  port: 6379
+  password: ""
+  db: 0
