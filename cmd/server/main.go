@@ -46,7 +46,7 @@ func main() {
 	api.SetupMiddlewares(app, cfg)
 
 	// Setup routes
-	api.SetupRoutes(app)
+	api.SetupRoutes(app, cfg)
 
 	// Start server in goroutine
 	go startServer(app, config.GetServerAddress(cfg))
