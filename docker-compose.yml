@@ -41,6 +41,12 @@ services:
     networks:
       - monitoring
 
+  redis:
+    image: redis:latest
+    container_name: redis
+    networks:
+      - monitoring
+
 networks:
   monitoring:
     driver: bridge
