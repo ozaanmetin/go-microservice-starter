@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/adaptor/v2"
 	"github.com/gofiber/fiber/v2"
+	"github.com/ozaanmetin/go-microservice-starter/internal/api/circuit_breaker_example"
 	"github.com/ozaanmetin/go-microservice-starter/internal/api/healthcheck"
 	"github.com/ozaanmetin/go-microservice-starter/internal/config"
 	infraredis "github.com/ozaanmetin/go-microservice-starter/internal/infrastructure/redis"
@@ -21,6 +22,7 @@ import (
 func SetupRoutes(app *fiber.App, cfg *config.Config) {
 	// Handlers
 	healthHandler := healthcheck.NewHealthCheckHandler()
+	circuitBreakerExampleHandler := circuitBreakerExample.NewExampleHandler()
 
 	// Rate Limiter
 	// TODO: Only for demonstration, adjust as needed or remove from healthcheck
@@ -33,6 +35,9 @@ func SetupRoutes(app *fiber.App, cfg *config.Config) {
 
 	// Setup routes with endpoint-specific rate limiter
 	app.Get("/healthcheck", healthCheckRateLimiter, infrahttp.AdaptHandler(healthHandler))
+
+	// Example endpoint with circuit breaker
+	app.Get("/circuit-breaker-example", infrahttp.AdaptHandler(circuitBreakerExampleHandler))
 
 	// Prometheus metrics endpoint
 	app.Get("/metrics", adaptor.HTTPHandler(promhttp.Handler()))
