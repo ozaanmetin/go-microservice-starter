@@ -9,6 +9,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/prometheus/client_golang v1.23.2
 	github.com/redis/go-redis/v9 v9.16.0
+	github.com/sony/gobreaker v1.0.0
 	github.com/spf13/viper v1.21.0
 	go.uber.org/zap v1.27.0
 )
