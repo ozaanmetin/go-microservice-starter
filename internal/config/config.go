@@ -13,9 +13,9 @@ import (
 
 // Config holds the entire configuration for the application
 type Config struct {
-	Server ServerConfig `mapstructure:"server"`
-	Logger LoggerConfig `mapstructure:"logger"`
-	Redis  RedisConfig  `mapstructure:"redis"`
+	Server         ServerConfig         `mapstructure:"server"`
+	Logger         LoggerConfig         `mapstructure:"logger"`
+	Redis          RedisConfig          `mapstructure:"redis"`
 }
 
 // ServerConfig holds server-related configuration
