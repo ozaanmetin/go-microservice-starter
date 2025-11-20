@@ -6,8 +6,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/storage/redis/v3"
-	appErrors "github.com/ozaanmetin/go-microservice-starter/pkg/errors"
 	"github.com/ozaanmetin/go-microservice-starter/pkg/logging"
+	appErrors "github.com/ozaanmetin/go-microservice-starter/pkg/errors"
 )
 
 type RateLimiterConfig struct {
