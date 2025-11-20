@@ -12,7 +12,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	// Middleware imports
-	middlewares "github.com/ozaanmetin/go-microservice-starter/internal/api/middlewares"
+	"github.com/ozaanmetin/go-microservice-starter/internal/middlewares"
 
 	// Infrastructure imports
 	infrahttp "github.com/ozaanmetin/go-microservice-starter/internal/infrastructure/http"
