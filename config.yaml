@@ -1,7 +1,7 @@
-# Event Gateway Configuration File
+# Base Go Microservice Configuration File
 
 server:
-  app_name: "Event Gateway"
+  app_name: "Base Go Microservice"
   port: 8000
   host: "0.0.0.0"
   read_timeout: 30s
@@ -10,7 +10,7 @@ server:
   
   rate_limiter:
     enabled: true
-    max: 10               # Maximum requests per expiration window for global rate limiting (must be changed its only 10 for demonstrations)
+    max: 1000               # Maximum requests per expiration window for global rate limiting (must be changed its only 10 for demonstrations)
     expiration: 1m        # Time window (e.g., 1m, 30s)
 
 logger:
@@ -18,7 +18,23 @@ logger:
   format: "json"
 
 redis:
-  host: "127.0.0.1"
-  port: 6379
+  host: "redis"
+  port: "6379"
   password: ""
   db: 0
+
+database:
+  host: "postgres"
+  port: 5432
+  user: "postgres"
+  password: "postgres"
+  dbname: "microservice_db"
+  sslmode: "disable"
+  max_open_conns: 25
+  max_idle_conns: 5
+  conn_max_lifetime: 5m
+
+jwt:
+  secret: "your-secret-key-change-this-in-production"
+  access_token_duration: 15m
+  refresh_token_duration: 168h  
