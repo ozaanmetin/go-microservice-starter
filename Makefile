@@ -29,3 +29,25 @@ build:
 clean:
 		rm -rf bin/
 		rm -f coverage.out coverage.html
+
+
+# Database migration commands
+.PHONY: migrate-up
+migrate-up:
+		@echo "Running migrations..."
+		goose -dir db/migrations postgres "host=127.0.0.1 port=5433 user=postgres password=postgres dbname=microservice_db sslmode=disable" up
+
+.PHONY: migrate-down
+migrate-down:
+		@echo "Rolling back migration..."
+		goose -dir db/migrations postgres "host=127.0.0.1 port=5433 user=postgres password=postgres dbname=microservice_db sslmode=disable" down
+
+.PHONY: migrate-status
+migrate-status:
+		@echo "Checking migration status..."
+		goose -dir db/migrations postgres "host=127.0.0.1 port=5433 user=postgres password=postgres dbname=microservice_db sslmode=disable" status
+
+.PHONY: migrate-reset
+migrate-reset:
+		@echo "Resetting database..."
+		goose -dir db/migrations postgres "host=127.0.0.1 port=5432 user=ometin password=Asdzxcfv1234 dbname=microservice_db sslmode=disable" reset
