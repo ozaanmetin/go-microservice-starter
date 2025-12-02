@@ -11,6 +11,7 @@ import (
 	"github.com/ozaanmetin/go-microservice-starter/internal/config"
 	"github.com/ozaanmetin/go-microservice-starter/internal/middlewares"
 	"github.com/ozaanmetin/go-microservice-starter/pkg/logging"
+	"github.com/ozaanmetin/go-microservice-starter/internal/infrastructure/database"
 )
 
 func main() {
@@ -32,6 +33,15 @@ func main() {
 	}
 	defer logging.L().Sync()
 
+	// Setup database connection
+	logging.L().Info("Connecting to database...")
+	db, err := database.WaitForDB(&cfg.Database, 5, 2*time.Second)
+	if err != nil {
+		logging.L().WithError(err).Fatal("Failed to connect to database")
+	}
+	defer database.Close(db)
+	logging.L().Info("Database connected successfully")
+
 	// Create Fiber app with custom error handler
 	app := fiber.New(
 		fiber.Config{
@@ -46,7 +56,7 @@ func main() {
 	api.SetupMiddlewares(app, cfg)
 
 	// Setup routes
-	api.SetupRoutes(app, cfg)
+	api.SetupRoutes(app, cfg, db)
 
 	// Start server in goroutine
 	go startServer(app, config.GetServerAddress(cfg))
