@@ -50,8 +50,14 @@ func AdaptHandler[R Request, Res Response](handler HandlerInterface[R, Res]) fib
 			return appErrors.NewBadRequestError("Invalid headers", err)
 		}
 
-		// Get user context
+		// Get user context and transfer Fiber Locals to standard context
 		ctx := c.UserContext()
+
+		// Transfer user authentication data from Fiber Locals to standard context
+		// This makes the context framework-agnostic for business logic
+		if userClaims := c.Locals("user"); userClaims != nil {
+			ctx = context.WithValue(ctx, "user", userClaims)
+		}
 
 		// Call business handler
 		res, err := handler.Handle(ctx, &req)

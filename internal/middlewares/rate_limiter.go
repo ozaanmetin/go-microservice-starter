@@ -6,8 +6,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/storage/redis/v3"
-	"github.com/ozaanmetin/go-microservice-starter/pkg/logging"
 	appErrors "github.com/ozaanmetin/go-microservice-starter/pkg/errors"
+	"github.com/ozaanmetin/go-microservice-starter/pkg/logging"
 )
 
 type RateLimiterConfig struct {
@@ -72,7 +72,6 @@ func RateLimiter(cfg RateLimiterConfig) fiber.Handler {
 				return c.Next()
 			}
 		}
-
 		return limiter.New(limiter.Config{
 			Max:          cfg.Max,
 			Expiration:   cfg.Expiration,
