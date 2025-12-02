@@ -16,6 +16,8 @@ type Config struct {
 	Server         ServerConfig         `mapstructure:"server"`
 	Logger         LoggerConfig         `mapstructure:"logger"`
 	Redis          RedisConfig          `mapstructure:"redis"`
+	Database       DatabaseConfig       `mapstructure:"database"`
+	JWT            JWTConfig            `mapstructure:"jwt"`
 }
 
 // ServerConfig holds server-related configuration
@@ -48,6 +50,26 @@ type RateLimiterConfig struct {
 	Enabled    bool          `mapstructure:"enabled"`
 	Max        int           `mapstructure:"max"`
 	Expiration time.Duration `mapstructure:"expiration"`
+}
+
+// DatabaseConfig holds database connection configuration
+type DatabaseConfig struct {
+	Host            string        `mapstructure:"host"`
+	Port            int           `mapstructure:"port"`
+	User            string        `mapstructure:"user"`
+	Password        string        `mapstructure:"password"`
+	DBName          string        `mapstructure:"dbname"`
+	SSLMode         string        `mapstructure:"sslmode"`
+	MaxOpenConns    int           `mapstructure:"max_open_conns"`
+	MaxIdleConns    int           `mapstructure:"max_idle_conns"`
+	ConnMaxLifetime time.Duration `mapstructure:"conn_max_lifetime"`
+}
+
+// JWTConfig holds JWT authentication configuration
+type JWTConfig struct {
+	Secret               string        `mapstructure:"secret"`
+	AccessTokenDuration  time.Duration `mapstructure:"access_token_duration"`
+	RefreshTokenDuration time.Duration `mapstructure:"refresh_token_duration"`
 }
 
 
@@ -116,4 +138,20 @@ func setDefaults(v *viper.Viper) {
 	v.SetDefault("redis.port", 6379)
 	v.SetDefault("redis.password", "")
 	v.SetDefault("redis.db", 0)
+
+	// Database defaults
+	v.SetDefault("database.host", "localhost")
+	v.SetDefault("database.port", 5432)
+	v.SetDefault("database.user", "postgres")
+	v.SetDefault("database.password", "postgres")
+	v.SetDefault("database.dbname", "microservice_db")
+	v.SetDefault("database.sslmode", "disable")
+	v.SetDefault("database.max_open_conns", 25)
+	v.SetDefault("database.max_idle_conns", 5)
+	v.SetDefault("database.conn_max_lifetime", 5*time.Minute)
+
+	// JWT defaults
+	v.SetDefault("jwt.secret", "your-secret-key-change-this-in-production")
+	v.SetDefault("jwt.access_token_duration", 15*time.Minute)
+	v.SetDefault("jwt.refresh_token_duration", 168*time.Hour) // 7 days
 }
