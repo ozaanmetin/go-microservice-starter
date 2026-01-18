@@ -3,18 +3,18 @@ package api
 import (
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/gofiber/adaptor/v2"
 	"github.com/gofiber/fiber/v2"
 	"github.com/jmoiron/sqlx"
-	"github.com/ozaanmetin/go-microservice-starter/internal/api/auth"
-	"github.com/ozaanmetin/go-microservice-starter/internal/api/circuit_breaker_example"
-	"github.com/ozaanmetin/go-microservice-starter/internal/api/healthcheck"
-	"github.com/ozaanmetin/go-microservice-starter/internal/api/profile"
+	"github.com/ozaanmetin/go-microservice-starter/internal/api/features/auth"
+	"github.com/ozaanmetin/go-microservice-starter/internal/api/features/circuit_breaker_example"
+	"github.com/ozaanmetin/go-microservice-starter/internal/api/features/healthcheck"
+	"github.com/ozaanmetin/go-microservice-starter/internal/api/features/profile"
 	"github.com/ozaanmetin/go-microservice-starter/internal/config"
 	"github.com/ozaanmetin/go-microservice-starter/internal/domain/user"
-	infraredis "github.com/ozaanmetin/go-microservice-starter/internal/infrastructure/redis"
 	pkgJWT "github.com/ozaanmetin/go-microservice-starter/pkg/jwt"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
+	infraredis "github.com/ozaanmetin/go-microservice-starter/internal/infrastructure/redis"
 
 	// Middleware imports
 	"github.com/ozaanmetin/go-microservice-starter/internal/middlewares"
