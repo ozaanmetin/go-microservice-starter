@@ -40,7 +40,9 @@ func SetupRoutes(app *fiber.App, cfg *config.Config, db *sqlx.DB) {
 	// Initialize services
 	// -------------------------------------------------------------
 	// Auth
-	authService := auth.NewService(userRepo, jwtManager)
+	authService := auth.NewAuthService(userRepo, jwtManager)
+	// Profile
+	profileService := profile.NewProfileService(userRepo)
 
 	// Initialize handlers
 	// -------------------------------------------------------------
@@ -50,7 +52,7 @@ func SetupRoutes(app *fiber.App, cfg *config.Config, db *sqlx.DB) {
 	// Register
 	registerHandler := auth.NewRegisterHandler(authService)
 	// Profile
-	profileHandler := profile.NewGetProfileHandler(authService)
+	profileHandler := profile.NewGetProfileHandler(profileService)
 
 
 	// Other handlers

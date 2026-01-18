@@ -44,9 +44,7 @@ docker-compose up -d
 
 ## Future Enhancements
 
-- [ ] Database integration
-- [ ] Authentication & Authorization (JWT, OAuth2)
 - [ ] Swagger/OpenAPI documentation
 - [ ] Migration system
-- [ ] CI/CD pipeline configuration
+- [ ] CI pipeline configuration
 - [ ] Kubernetes manifests

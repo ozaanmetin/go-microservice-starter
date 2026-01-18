@@ -16,22 +16,21 @@ var (
 	ErrUserNotActive      = errors.New("user is not active")
 )
 
-// Service handles authentication business logic
-type Service struct {
+// Service provides authentication related operations
+type AuthService struct {
 	userRepo   user.Repository
 	jwtManager *pkgJWT.Manager
 }
 
-// NewService creates a new authentication service
-func NewService(userRepo user.Repository, jwtManager *pkgJWT.Manager) *Service {
-	return &Service{
+func NewAuthService(userRepo user.Repository, jwtManager *pkgJWT.Manager) *AuthService {
+	return &AuthService{
 		userRepo:   userRepo,
 		jwtManager: jwtManager,
 	}
 }
 
 // Register creates a new user account
-func (s *Service) Register(ctx context.Context, email, password string, firstName, lastName *string) (*user.User, error) {
+func (s *AuthService) Register(ctx context.Context, email, password string, firstName, lastName *string) (*user.User, error) {
 	// Hash password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
@@ -55,7 +54,7 @@ func (s *Service) Register(ctx context.Context, email, password string, firstNam
 }
 
 // Login authenticates a user and returns JWT tokens
-func (s *Service) Login(ctx context.Context, email, password string) (*pkgJWT.TokenPair, *user.User, error) {
+func (s *AuthService) Login(ctx context.Context, email, password string) (*pkgJWT.TokenPair, *user.User, error) {
 	// Get user by email
 	existingUser, err := s.userRepo.GetByEmail(ctx, email)
 	if err != nil {
@@ -85,7 +84,7 @@ func (s *Service) Login(ctx context.Context, email, password string) (*pkgJWT.To
 }
 
 // RefreshToken generates new tokens using a valid refresh token
-func (s *Service) RefreshToken(ctx context.Context, refreshToken string) (*pkgJWT.TokenPair, error) {
+func (s *AuthService) RefreshToken(ctx context.Context, refreshToken string) (*pkgJWT.TokenPair, error) {
 	// Validate refresh token
 	claims, err := s.jwtManager.ValidateRefreshToken(refreshToken)
 	if err != nil {
@@ -112,9 +111,4 @@ func (s *Service) RefreshToken(ctx context.Context, refreshToken string) (*pkgJW
 	}
 
 	return tokens, nil
-}
-
-// GetUserByID retrieves a user by ID
-func (s *Service) GetUserByID(ctx context.Context, userID int64) (*user.User, error) {
-	return s.userRepo.GetByID(ctx, userID)
 }

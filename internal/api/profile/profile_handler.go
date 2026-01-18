@@ -3,7 +3,6 @@ package profile
 import (
 	"context"
 
-	"github.com/ozaanmetin/go-microservice-starter/internal/api/auth"
 	"github.com/ozaanmetin/go-microservice-starter/internal/middlewares"
 	appErrors "github.com/ozaanmetin/go-microservice-starter/pkg/errors"
 	pkgJWT "github.com/ozaanmetin/go-microservice-starter/pkg/jwt"
@@ -23,13 +22,13 @@ type GetProfileResponse struct {
 
 // GetProfileHandler handles fetching user profile
 type GetProfileHandler struct {
-	authService *auth.Service
+	profileService *ProfileService
 }
 
 // NewGetProfileHandler creates a new profile handler
-func NewGetProfileHandler(authService *auth.Service) *GetProfileHandler {
+func NewGetProfileHandler(profileService *ProfileService) *GetProfileHandler {
 	return &GetProfileHandler{
-		authService: authService,
+		profileService: profileService,
 	}
 }
 
@@ -44,7 +43,7 @@ func (h *GetProfileHandler) Handle(ctx context.Context, req *GetProfileRequest) 
 	}
 
 	// Optionally, you can fetch full user details from database
-	user, err := h.authService.GetUserByID(ctx, claims.UserID)
+	user, err := h.profileService.GetUserByID(ctx, claims.UserID)
 	if err != nil {
 		return nil, appErrors.NewInternalServerError(err)
 	}
