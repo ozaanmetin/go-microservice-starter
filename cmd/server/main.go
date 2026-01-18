@@ -6,18 +6,16 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/ozaanmetin/go-microservice-starter/pkg/logging"
 	"github.com/ozaanmetin/go-microservice-starter/internal/api"
 	"github.com/ozaanmetin/go-microservice-starter/internal/config"
-	"github.com/ozaanmetin/go-microservice-starter/internal/infrastructure/http/middlewares"
-	"github.com/ozaanmetin/go-microservice-starter/pkg/logging"
 	"github.com/ozaanmetin/go-microservice-starter/internal/infrastructure/database"
+	infrahttp "github.com/ozaanmetin/go-microservice-starter/internal/infrastructure/http"
 )
 
 func main() {
 	// Setup configuration
 	cfg, err := config.Load()
-
 	if err != nil {
 		panic(err)
 	}
@@ -27,7 +25,6 @@ func main() {
 		Level:  cfg.Logger.Level,
 		Format: cfg.Logger.Format,
 	})
-
 	if err != nil {
 		panic(err)
 	}
@@ -42,48 +39,29 @@ func main() {
 	defer database.Close(db)
 	logging.L().Info("Database connected successfully")
 
-	// Create Fiber app with custom error handler
-	app := fiber.New(
-		fiber.Config{
-			AppName:      cfg.Server.AppName,
-			ReadTimeout:  cfg.Server.ReadTimeout,
-			WriteTimeout: cfg.Server.WriteTimeout,
-			ErrorHandler: middlewares.ServiceErrorErrorHandler(),
-		},
-	)
-
-	// Setup middlewares
-	api.SetupMiddlewares(app, cfg)
-
-	// Setup routes
-	api.SetupRoutes(app, cfg, db)
+	// Create HTTP server with route setup from api layer
+	server := infrahttp.NewServer(cfg, api.NewRouteSetup(cfg, db))
 
 	// Start server in goroutine
-	go startServer(app, config.GetServerAddress(cfg))
+	go func() {
+		if err := server.Listen(config.GetServerAddress(cfg)); err != nil {
+			logging.L().WithError(err).Fatal("Failed to start server")
+		}
+	}()
 
-	// Handle graceful shutdown (blocks here)
-	gracefulShutdown(app, cfg.Server.ShutdownTimeout)
+	// Handle graceful shutdown
+	gracefulShutdown(server, cfg.Server.ShutdownTimeout)
 }
 
-
-// Starts the Fiber server
-func startServer(app *fiber.App, serverAddress string) {
-	logging.L().WithField("server_address", serverAddress).Info("Starting server...")
-	if err := app.Listen(serverAddress); err != nil {
-		logging.L().WithError(err).Fatal("Failed to start server")
-	}
-}
-
-
-// Handles graceful shutdown on os signals
-func gracefulShutdown(app *fiber.App, shutdownTimeout time.Duration) {
+// gracefulShutdown handles graceful shutdown on OS signals
+func gracefulShutdown(server *infrahttp.Server, shutdownTimeout time.Duration) {
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
 
 	<-sigChan
 	logging.L().Info("Shutting down server...")
 
-	if err := app.ShutdownWithTimeout(shutdownTimeout); err != nil {
+	if err := server.Shutdown(shutdownTimeout); err != nil {
 		logging.L().WithError(err).Error("Error during server shutdown")
 	}
 
