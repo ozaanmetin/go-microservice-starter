@@ -21,31 +21,27 @@ type RateLimiterConfig struct {
 // KeyGeneratorFunc defines the function signature for generating rate limit keys
 type KeyGeneratorFunc func(c *fiber.Ctx) string
 
-
 // Fetches the IP address of the client making the request
 func getKeyByIP(c *fiber.Ctx) string {
 	return c.IP()
 }
 
-
 // Fetches the user ID from the context for authenticated users
 func getKeyByUserId(c *fiber.Ctx) string {
 	userID := c.Locals("user_id")
 
-	 // Fallback to IP if user not authenticated
+	// Fallback to IP if user not authenticated
 	if userID == nil {
 		return c.IP()
 	}
 	return userID.(string)
 }
 
-
 // Default key generators
 var (
-	KeyByIP KeyGeneratorFunc = getKeyByIP
+	KeyByIP     KeyGeneratorFunc = getKeyByIP
 	KeyByUserID KeyGeneratorFunc = getKeyByUserId
 )
-
 
 func onLimit(c *fiber.Ctx, keyGen KeyGeneratorFunc) error {
 	logging.L().

@@ -3,7 +3,7 @@ package profile
 import (
 	"context"
 
-	"github.com/ozaanmetin/go-microservice-starter/internal/middlewares"
+	"github.com/ozaanmetin/go-microservice-starter/internal/infrastructure/http/middlewares"
 	appErrors "github.com/ozaanmetin/go-microservice-starter/pkg/errors"
 	pkgJWT "github.com/ozaanmetin/go-microservice-starter/pkg/jwt"
 )

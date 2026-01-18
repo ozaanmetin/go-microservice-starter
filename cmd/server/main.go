@@ -9,7 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/ozaanmetin/go-microservice-starter/internal/api"
 	"github.com/ozaanmetin/go-microservice-starter/internal/config"
-	"github.com/ozaanmetin/go-microservice-starter/internal/middlewares"
+	"github.com/ozaanmetin/go-microservice-starter/internal/infrastructure/http/middlewares"
 	"github.com/ozaanmetin/go-microservice-starter/pkg/logging"
 	"github.com/ozaanmetin/go-microservice-starter/internal/infrastructure/database"
 )

@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/ozaanmetin/go-microservice-starter/pkg/logging"
 	appErrors "github.com/ozaanmetin/go-microservice-starter/pkg/errors"
+	"github.com/ozaanmetin/go-microservice-starter/pkg/logging"
 )
 
 type LoggerConfig struct {

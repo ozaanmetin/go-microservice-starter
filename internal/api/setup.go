@@ -16,11 +16,9 @@ import (
 	pkgJWT "github.com/ozaanmetin/go-microservice-starter/pkg/jwt"
 	infraredis "github.com/ozaanmetin/go-microservice-starter/internal/infrastructure/redis"
 
-	// Middleware imports
-	"github.com/ozaanmetin/go-microservice-starter/internal/middlewares"
-
 	// Infrastructure imports
 	infrahttp "github.com/ozaanmetin/go-microservice-starter/internal/infrastructure/http"
+	"github.com/ozaanmetin/go-microservice-starter/internal/infrastructure/http/middlewares"
 )
 
 // SetupRoutes configures all HTTP routes for the application
