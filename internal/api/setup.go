@@ -34,26 +34,19 @@ func SetupRoutes(app *fiber.App, cfg *config.Config, db *sqlx.DB) {
 
 	// Initialize repositories
 	// -------------------------------------------------------------
-	// User
 	userRepo := user.NewRepository(db)
 
 	// Initialize services
 	// -------------------------------------------------------------
-	// Auth
 	authService := auth.NewAuthService(userRepo, jwtManager)
-	// Profile
 	profileService := profile.NewProfileService(userRepo)
 
 	// Initialize handlers
 	// -------------------------------------------------------------
-	// Login
 	refreshTokenHandler := auth.NewRefreshTokenHandler(authService)
 	loginHandler := auth.NewLoginHandler(authService)
-	// Register
 	registerHandler := auth.NewRegisterHandler(authService)
-	// Profile
 	profileHandler := profile.NewGetProfileHandler(profileService)
-
 
 	// Other handlers
 	healthHandler := healthcheck.NewHealthCheckHandler()
@@ -81,6 +74,7 @@ func SetupRoutes(app *fiber.App, cfg *config.Config, db *sqlx.DB) {
 
 	// Protected routes (require JWT authentication)
 	api := app.Group("/api", middlewares.AuthMiddleware(jwtManager))
+	
 	// Profile routes
 	api.Get("/profile", infrahttp.AdaptHandler(profileHandler))
 }
