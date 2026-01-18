@@ -166,3 +166,6 @@ go.sum.bak
 
 # Tools
 .tool-versions
+
+# AI
+CLAUDE.md
